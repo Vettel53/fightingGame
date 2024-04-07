@@ -52,10 +52,10 @@ class playerStats {
 
 public class CombatSystem {
 
-    Scanner scnr = new Scanner(System.in);
-
-    enemyStats ralphStats = new enemyStats("Ralph", 200, 50);
-    playerStats playerStats = new playerStats("Titan", 200, 50);
+    Scanner scnr = new Scanner(System.in); // System scanner = scnr
+    enemyGeneration enemyGen = new enemyGeneration(); // Object enemyGeneration.java
+    Player titanPlayer = new playerNormal();
+    playerStats playerStats = new playerStats(titanPlayer.playerName(), titanPlayer.playerHealth(), titanPlayer.playerDamage());
 
     public void startMenu() {
         int userInput;
@@ -83,27 +83,17 @@ public class CombatSystem {
     public void welcomeMessage() {
         System.out.println("\nWelcome to an early version of a math-battle game inspired by");
 
-//        System.out.println(" ____  _____ ____ _____ ___ _   ___   __  ____");
-//        System.out.println("|  _ \\| ____/ ___|_   _|_ _| \\ | \\ \\ / / |___ \\");
-//        System.out.println("| | | |  _| \\___ \\ | |  | ||  \\| |\\ V /    __) |");
-//        System.out.println("| |_| | |___ ___) || |  | || |\\  | | |    / __/");
-//        System.out.println("|____/|_____|____/ |_| |___|_| \\_| |_|   |_____|");
-
-        combatStart(); // Start Combat
+        enemyGen.combatSystem(); // Begin Combat System
     }
 
-    public void combatStart() {
+    public void combatStart(Enemy randomEnemy) {
+        String enemyName = randomEnemy.enemyName();
+        int enemyHealth = randomEnemy.enemyHealth(); // Store Randomly picked enemies stats
+        int enemyDamage = randomEnemy.enemyDamage();
 
-        String enemyName = ralphStats.getName();
-        int enemyHealth = ralphStats.getHealth();
-        int enemyDamage = ralphStats.getDamage();
+        enemyHealth -= 50;
 
-        String playerName = playerStats.getName();
-        int playerHealth = playerStats.getHealth();
-        int playerDamage = playerStats.getDamage();
-
-
-
+        System.out.printf("The %s got hit! Their health is now: %d", enemyName, enemyHealth);
     }
 
 }
