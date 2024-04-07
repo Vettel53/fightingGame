@@ -1,5 +1,6 @@
 public class Main {
     public static void main(String[] args) {
+        new GameFrame();
         Enemy enemyRalph = new Ralph();
         Player playerNormal = new playerNormal();
         CombatSystem combatSystem = new CombatSystem();
