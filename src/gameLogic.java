@@ -12,6 +12,8 @@ public class gameLogic extends JPanel implements ActionListener {
     static final int BLOCK_SIZE = 30; // Size of the UNIT/BLOCKS
 
     static final int GAME_BLOCKS = (SCREEN_HEIGHT*SCREEN_WIDTH)/BLOCK_SIZE; //Amount of BLOCKS that will be in the Window/Screen
+    int ghostY = 100;
+    int ghostX = 100;
 
     static final int TICKS = 60; //Refresh Rate the game will use to check and call methods
 
@@ -22,31 +24,58 @@ public class gameLogic extends JPanel implements ActionListener {
     Random random;
 
     gameLogic(){
+
         random = new Random();
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.black);
         this.setFocusable(true);
-        //this.addKeyListener(new MyKeyAdapter()); this needs to be implemented still
-        startGame();
+        this.setLayout(null); // set layout to null for now, other layouts are available we should probably use
+        ImageIcon icon = new ImageIcon("src/images/ghost.png");  // Load from images directory "ghost.png"
+
+        JLabel ghostPlayer = new JLabel(icon); // Create a JLabel with the loaded image
+        this.add(ghostPlayer); // Add the image to frame
+
+        ghostPlayer.setBounds(ghostX, ghostY, icon.getIconWidth(),icon.getIconHeight()); // getIconHeight and width gets the images width/height
+        // setBounds(x, y, width, height) : Sets the images position and size when LAYOUT IS == NULL
+
+        this.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_W) {
+                    ghostY -= 5; // Move image up
+                    ghostPlayer.setLocation(ghostX,ghostY);
+                    revalidate();// Used to recalculate the images layout
+                    repaint(); //Re-renders the FRAME
+                    System.out.println("PRESSING W"); // Check if key event is working
+                }
+                if (e.getKeyCode() == KeyEvent.VK_A) {
+                    ghostX -= 5; // Move right
+                    ghostPlayer.setLocation(ghostX,ghostY);
+                    revalidate(); // Used to recalculate the images layout
+                    repaint(); // Re-renders the FRAME
+                    System.out.println("PRESSING A"); // Check if key event is working
+                }
+                if (e.getKeyCode() == KeyEvent.VK_S) {
+                    ghostY += 5; // Move down
+                    ghostPlayer.setLocation(ghostX,ghostY);
+                    revalidate(); // Used to recalculate the images layout
+                    repaint(); // Re-renders the FRAME
+                    System.out.println("PRESSING S"); // Check if key event is working
+                }
+                if (e.getKeyCode() == KeyEvent.VK_D) {
+                    ghostX += 5; // Move right
+                    ghostPlayer.setLocation(ghostX,ghostY);
+                    revalidate(); // Used to recalculate the images layout
+                    repaint(); // Re-renders the FRAME
+                    System.out.println("PRESSING D"); // Check if key event is working
+                }
+            }
+        });
     }
-
-    public void startGame(){
-
-    }
-
-
-
-
 
     public void actionPerformed(ActionEvent e){
-        /*if(running){
-            checkMovement();
-            checkEnemy();
-            checkWall();            These are juse placeholder function names for functions that will be called every time the game is refreshed/tick so it will be checking if you moved and 
-            checkRoom();            then edit the x,y values of the character then call the repaint(); so that it updates the screen to move your character.
-        }
-        repaint();
-    */}
+
+    }
 
 }
 
