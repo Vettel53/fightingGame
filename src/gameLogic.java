@@ -4,79 +4,30 @@ import javax.swing.*;
 import java.util.Random;
 import java.awt.event.*;
 
-
-public class gameLogic extends JPanel implements ActionListener {
-    static final int SCREEN_WIDTH = 800; //Screen resolution Width ex: 1920x1080p tihs would be the 1920
-    static final int SCREEN_HEIGHT = 600;//Screen resolution Heigh ex: 1920x1080p tihs would be the 1080
-
-    static final int BLOCK_SIZE = 30; // Size of the UNIT/BLOCKS
-
-    static final int GAME_BLOCKS = (SCREEN_HEIGHT*SCREEN_WIDTH)/BLOCK_SIZE; //Amount of BLOCKS that will be in the Window/Screen
-    int ghostY = 100;
-    int ghostX = 100;
-
-    static final int TICKS = 60; //Refresh Rate the game will use to check and call methods
-
-    final int[] x = new int[GAME_BLOCKS];   //Array Holding the Main Character x position value
-    final int[] y = new int[GAME_BLOCKS];   //Array Holding the Main Character y position value
-
-
+public class gameLogic implements KeyListener {
+    static final double FPS = 60.0; //Refresh Rate the game will use to check and call methods
+    Thread gameThread;
     Random random;
+    private Set<Integer> pressedKeys = new HashSet<>(); // Store key presses for movement etc.
 
-    gameLogic(){
-
-        random = new Random();
-        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-        this.setBackground(Color.black);
-        this.setFocusable(true);
-        this.setLayout(null); // set layout to null for now, other layouts are available we should probably use
-        ImageIcon icon = new ImageIcon("src/images/ghost.png");  // Load from images directory "ghost.png"
-
-        JLabel ghostPlayer = new JLabel(icon); // Create a JLabel with the loaded image
-        this.add(ghostPlayer); // Add the image to frame
-
-        ghostPlayer.setBounds(ghostX, ghostY, icon.getIconWidth(),icon.getIconHeight()); // getIconHeight and width gets the images width/height
-        // setBounds(x, y, width, height) : Sets the images position and size when LAYOUT IS == NULL
-
-        this.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_W) {
-                    ghostY -= 5; // Move image up
-                    ghostPlayer.setLocation(ghostX,ghostY);
-                    revalidate();// Used to recalculate the images layout
-                    repaint(); //Re-renders the FRAME
-                    System.out.println("PRESSING W"); // Check if key event is working
-                }
-                if (e.getKeyCode() == KeyEvent.VK_A) {
-                    ghostX -= 5; // Move right
-                    ghostPlayer.setLocation(ghostX,ghostY);
-                    revalidate(); // Used to recalculate the images layout
-                    repaint(); // Re-renders the FRAME
-                    System.out.println("PRESSING A"); // Check if key event is working
-                }
-                if (e.getKeyCode() == KeyEvent.VK_S) {
-                    ghostY += 5; // Move down
-                    ghostPlayer.setLocation(ghostX,ghostY);
-                    revalidate(); // Used to recalculate the images layout
-                    repaint(); // Re-renders the FRAME
-                    System.out.println("PRESSING S"); // Check if key event is working
-                }
-                if (e.getKeyCode() == KeyEvent.VK_D) {
-                    ghostX += 5; // Move right
-                    ghostPlayer.setLocation(ghostX,ghostY);
-                    revalidate(); // Used to recalculate the images layout
-                    repaint(); // Re-renders the FRAME
-                    System.out.println("PRESSING D"); // Check if key event is working
-                }
-            }
-        });
+    public Set<Integer> getPressedKeys() {
+        return pressedKeys;
     }
 
-    public void actionPerformed(ActionEvent e){
-
+    @Override
+    public void keyTyped(KeyEvent e) {
     }
 
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keycode = e.getKeyCode();
+        pressedKeys.add(keycode);
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        pressedKeys.remove(e.getKeyCode());
+    }
 }
 
 

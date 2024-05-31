@@ -16,4 +16,5 @@ class playerNormal extends Player {
     public int playerDamage() {
         return 50;
     }
+
 }
