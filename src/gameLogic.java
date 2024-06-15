@@ -4,50 +4,30 @@ import javax.swing.*;
 import java.util.Random;
 import java.awt.event.*;
 
-
-public class gameLogic extends JPanel implements ActionListener {
-    static final int SCREEN_WIDTH = 800; //Screen resolution Width ex: 1920x1080p tihs would be the 1920
-    static final int SCREEN_HEIGHT = 600;//Screen resolution Heigh ex: 1920x1080p tihs would be the 1080
-
-    static final int BLOCK_SIZE = 30; // Size of the UNIT/BLOCKS
-
-    static final int GAME_BLOCKS = (SCREEN_HEIGHT*SCREEN_WIDTH)/BLOCK_SIZE; //Amount of BLOCKS that will be in the Window/Screen
-
-    static final int TICKS = 60; //Refresh Rate the game will use to check and call methods
-
-    final int[] x = new int[GAME_BLOCKS];   //Array Holding the Main Character x position value
-    final int[] y = new int[GAME_BLOCKS];   //Array Holding the Main Character y position value
-
-
+public class gameLogic implements KeyListener {
+    static final double FPS = 60.0; //Refresh Rate the game will use to check and call methods
+    Thread gameThread;
     Random random;
+    private Set<Integer> pressedKeys = new HashSet<>(); // Store key presses for movement etc.
 
-    gameLogic(){
-        random = new Random();
-        this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
-        this.setBackground(Color.black);
-        this.setFocusable(true);
-        //this.addKeyListener(new MyKeyAdapter()); this needs to be implemented still
-        startGame();
+    public Set<Integer> getPressedKeys() {
+        return pressedKeys;
     }
 
-    public void startGame(){
-
+    @Override
+    public void keyTyped(KeyEvent e) {
     }
 
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int keycode = e.getKeyCode();
+        pressedKeys.add(keycode);
+    }
 
-
-
-
-    public void actionPerformed(ActionEvent e){
-        /*if(running){
-            checkMovement();
-            checkEnemy();
-            checkWall();            These are juse placeholder function names for functions that will be called every time the game is refreshed/tick so it will be checking if you moved and 
-            checkRoom();            then edit the x,y values of the character then call the repaint(); so that it updates the screen to move your character.
-        }
-        repaint();
-    */}
-
+    @Override
+    public void keyReleased(KeyEvent e) {
+        pressedKeys.remove(e.getKeyCode());
+    }
 }
 
 
